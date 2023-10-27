@@ -1,0 +1,76 @@
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.m-t {
+    margin-top: 30px;
+}
+
+.card-shadow {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.year-dropdown {
+    width: 100%;
+    display: flex;
+}
+
+.population-card-container {
+    width: 650px;
+    min-height: 50px;
+    border: 0.5px solid grey;
+    display: flex;
+
+    .population-summary {
+       width: 40%;
+    }
+    .population-area-chart {
+        width: 60%;
+        border-left:  0.5px solid grey;
+     }
+}
+
+.population-scatter-plot-chart {
+    width: 100%;
+    min-height: 50px;
+    border:  0.5px solid grey;
+}
+
+
+  /* Responsive Styles for Mobile View */
+  @media screen and (max-width: 700px) {
+    :host {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .year-dropdown {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .population-card-container{
+        width: 200px;
+        min-height: 10px;
+        border:  0.5px solid grey;
+        .population-summary {
+            width: 100%;
+            height: 100%;
+         }
+         .population-area-chart {
+             display: none;
+          }
+    }
+    .m-t{
+        margin-top: 10px;
+    }
+   }
+
+ 
