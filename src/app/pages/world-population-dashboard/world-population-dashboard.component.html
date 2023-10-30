@@ -5,6 +5,12 @@
     </select>
 </div>
 
+<div class="country-dropdown">
+  <select id="country"  [(ngModel)]="selectedCountry" (change)="onCountryChanged()">
+    <option *ngFor="let country of uniqueCoutry" value="{{country}}">{{country}}</option>
+  </select>
+</div>
+
 <div class="population-card-container m-t card-shadow">
    <div class="population-summary m-l">
      <div class="world-population-label">World Population</div>
@@ -14,7 +20,7 @@
 
    <div class="population-area-chart">
     <div class="population-growth-label m-l">Population Growth</div>
-    <app-area-chart></app-area-chart>
+    <app-area-chart [chartWidth]="800" [chartHeight]="100" [chartData]="scatterPlotChartData"></app-area-chart>
    </div>
 </div>
 
