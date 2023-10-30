@@ -1,19 +1,26 @@
 
 <div class="year-dropdown">
-    <select>
-        <option>Year-2020</option>
-        <option>Year-2021</option>
-        <option>Year-2022</option>
+    <select id="year"  [(ngModel)]="selectedYear" (change)="onYearChanged()">
+      <option *ngFor="let year of uniqueYear" value="{{year}}">Year:{{year}}</option>
     </select>
 </div>
 
 <div class="population-card-container m-t card-shadow">
-   <div class="population-summary"></div>
+   <div class="population-summary m-l">
+     <div class="world-population-label">World Population</div>
+     <div>({{selectedYear}})</div>
+     <div class="world-population-value-label">{{worldPopulation}}<span class="world-population-label"> Bn</span></div>
+   </div>
+
    <div class="population-area-chart">
+    <div class="population-growth-label m-l">Population Growth</div>
     <app-area-chart></app-area-chart>
    </div>
 </div>
 
 <div class="population-scatter-plot-chart m-t card-shadow">
+    <div class="m-l">
+    <div class="population-growth-label">Population Growth vs Density Correlation</div>
     <app-scatter-plot-chart></app-scatter-plot-chart>
+    </div>
 </div>

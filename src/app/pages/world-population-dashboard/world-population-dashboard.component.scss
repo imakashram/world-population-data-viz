@@ -9,6 +9,10 @@
     margin-top: 30px;
 }
 
+.m-l {
+    margin-left: 10px;
+}
+
 .card-shadow {
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
@@ -38,6 +42,22 @@
     min-height: 50px;
     border:  0.5px solid grey;
 }
+
+.world-population-label {
+    font-size: 15px; 
+    font-weight: bold;
+}
+.world-population-value-label { 
+    font-size: 40px;
+    font:bold;
+}
+.population-growth-label {
+    font-size: 15px; 
+    font-weight: bold;
+}
+
+
+
 
 
   /* Responsive Styles for Mobile View */
