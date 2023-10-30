@@ -14,7 +14,7 @@
     height: 100vh;
   }
 
-  .toolbar {
+  .toolbar-header {
     height: 60px;
     display: flex;
     align-items: center;
@@ -23,7 +23,7 @@
     font-weight: 600;
   }
 
-  .toolbar img {
+  .toolbar-header img {
     margin: 0 16px;
   }
 
@@ -39,7 +39,7 @@
 
   /* Responsive Styles (Container) */
   @media screen and (max-width: 700px) {
-   .toolbar {
+   .toolbar-header {
     display:flex;
     align-items: center;
     justify-content: center;

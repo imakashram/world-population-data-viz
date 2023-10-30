@@ -4,10 +4,13 @@ import { WorldPopulationDashboardComponent } from './pages/world-population-dash
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'world-population-dashboard', pathMatch: 'full'
+    path: '', 
+    redirectTo: 'world-population-dashboard', 
+    pathMatch: 'full'
   },
   {
-    path: 'world-population-dashboard', component : WorldPopulationDashboardComponent
+    path: 'world-population-dashboard',
+    loadChildren: () => import('./pages/world-population-dashboard/world-population-dashboard.module').then(m => m.WorldPopulationDashboardModule)
   }
 ];
 
