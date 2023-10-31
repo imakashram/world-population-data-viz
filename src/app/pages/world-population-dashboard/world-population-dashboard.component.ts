@@ -37,7 +37,7 @@ export class WorldPopulationDashboardComponent {
       this.selectedYear = this.uniqueYear[this.uniqueYear.length-1] as any;
       this.selectedCountry = this.uniqueCoutry[this.uniqueCoutry.length-1] as any;
       this.getScatterPlotChartData(this.selectedYear)
-      this.getAreaChartData(this.selectedCountry)
+      //this.getAreaChartData()
     }).catch(function (error) {
       console.log(error);
     });
@@ -48,16 +48,16 @@ export class WorldPopulationDashboardComponent {
    * @function getAreaChartData
    * @param country 
    */
-  private getAreaChartData(country: string) : void { 
-    let countryWiseData = this.populationData.filter((el: any) => el.Country === country);
-    let customizedData = countryWiseData.map((d: any) => {
+  private getAreaChartData() : void { 
+    let populationGrowthData = this.populationData.map((d: any) => {
       return {
         ...d, 
-        "Year": convertToNumber(d["Year"] ),
         " Population (000s) ": convertToNumber(d[" Population (000s) "])
       }
     })
-    customizedData.sort((a:any,b:any) =>a["Year"]-b["Year"])
+
+    console.log(populationGrowthData)
+    //customizedData.sort((a:any,b:any) =>a["Year"]-b["Year"])
   }
 
   /**
@@ -77,7 +77,7 @@ export class WorldPopulationDashboardComponent {
     })
     customizedData.sort((a:any,b:any) =>b[" Population (000s) "]-a[" Population (000s) "])
     this.scatterPlotChartData = customizedData;
-    // world population in Billion
+    // world population data (in Billion)
     this.worldPopulation = (this.scatterPlotChartData.reduce((accumulator:any, currentObject:any) => {
       return accumulator + currentObject[" Population (000s) "];
     }, 0))/1000000;
@@ -86,18 +86,10 @@ export class WorldPopulationDashboardComponent {
   }
 
   /**
-   * @description change the year to get population data
-   * @function getGraphData
+   * @description get year wise population data
+   * @function onYearChanged
    */
   public onYearChanged() : void {
     this.getScatterPlotChartData(this.selectedYear)
-  }
-
-  /**
-   * @description change the country to get population data
-   * @function onCountryChanged
-   */
-  public onCountryChanged() : void {
-    this.getAreaChartData(this.selectedCountry)
   }
 }
