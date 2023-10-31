@@ -12,14 +12,19 @@ export class WorldPopulationDashboardComponent {
   public populationData : any
   public uniqueYear: any
   public selectedYear: any;
-  public uniqueCoutry:any
-  public selectedCountry: any
   public scatterPlotChartData: any;
+  public areaChartData: any
   public worldPopulation: any
+  public containerWidth: number = 700;
+  
 
   constructor() { }
   
   ngOnInit(): void {
+    this.containerWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+      this.containerWidth = window.innerWidth;
+    });
     this.getPopulationData();
   }
 
@@ -33,11 +38,9 @@ export class WorldPopulationDashboardComponent {
     d3.csv('./assets/data/world_population.csv').then((response) => {
       this.populationData = response
       this.uniqueYear = [...new Set(this.populationData.map((el: any) => el.Year))];
-      this.uniqueCoutry = [...new Set(this.populationData.map((el: any) => el.Country))];
       this.selectedYear = this.uniqueYear[this.uniqueYear.length-1] as any;
-      this.selectedCountry = this.uniqueCoutry[this.uniqueCoutry.length-1] as any;
       this.getScatterPlotChartData(this.selectedYear)
-      //this.getAreaChartData()
+      this.getAreaChartData()
     }).catch(function (error) {
       console.log(error);
     });
@@ -55,9 +58,31 @@ export class WorldPopulationDashboardComponent {
         " Population (000s) ": convertToNumber(d[" Population (000s) "])
       }
     })
+    
+    const totalPopulationPerYear:any = {};
+    populationGrowthData.forEach((el:any) => {
+      const year = el.Year;
+      const population = (el[" Population (000s) "]); 
+      if (totalPopulationPerYear[year]) {
+        totalPopulationPerYear[year] += population;
+      } else {
+        totalPopulationPerYear[year] = population;
+      }
+    });
 
-    console.log(populationGrowthData)
-    //customizedData.sort((a:any,b:any) =>a["Year"]-b["Year"])
+    this.areaChartData = []
+    Object.keys(totalPopulationPerYear).forEach((year:any) => {
+      this.areaChartData.push({
+        Year: parseInt(year),
+        TotalPopulation: totalPopulationPerYear[year]
+      })
+    })
+
+    // Convert the object to an array of objects for the desired format
+    const totalPopulationList = Object.keys(totalPopulationPerYear).map(year => ({
+      Year: parseInt(year),
+      TotalPopulation: totalPopulationPerYear[year]
+    }));
   }
 
   /**
@@ -82,7 +107,6 @@ export class WorldPopulationDashboardComponent {
       return accumulator + currentObject[" Population (000s) "];
     }, 0))/1000000;
     this.worldPopulation = this.worldPopulation.toFixed(2);
-    //console.log(this.graphData,this.worldPopulation)
   }
 
   /**

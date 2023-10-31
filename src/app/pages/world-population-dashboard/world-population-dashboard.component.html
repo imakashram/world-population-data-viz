@@ -14,13 +14,13 @@
 
    <div class="population-area-chart">
     <div class="population-growth-label m-l">Population Growth</div>
-    <!-- <app-area-chart [chartWidth]="800" [chartHeight]="100" [chartData]="scatterPlotChartData"></app-area-chart> -->
+    <app-area-chart [containerWidth]="350" [containerHeight]="200" [chartData]="areaChartData"></app-area-chart>
    </div>
 </div>
 
 <div class="population-scatter-plot-chart m-t card-shadow">
     <div class="m-l">
     <div class="population-growth-label">Population Growth vs Density Correlation</div>
-    <app-scatter-plot-chart [containerWidth]="1000" [containerHeight]="500" [chartData]="scatterPlotChartData"></app-scatter-plot-chart>
+    <app-scatter-plot-chart [containerWidth]="containerWidth-100" [containerHeight]="500" [chartData]="scatterPlotChartData"></app-scatter-plot-chart>
     </div>
 </div>
