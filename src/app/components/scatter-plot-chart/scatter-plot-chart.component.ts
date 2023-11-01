@@ -1,5 +1,5 @@
 import { Component, Input, ViewContainerRef } from '@angular/core';
-// d3.js module import
+// import d3.js module 
 import { select,selectAll } from 'd3-selection';
 import { scaleLinear,scaleOrdinal } from 'd3-scale';
 import {extent,min,max} from 'd3-array';
@@ -13,7 +13,7 @@ import { axisBottom,axisLeft } from 'd3-axis';
 export class ScatterPlotChartComponent {
     @Input() public containerWidth! : number   // total containerWidth including margins
     @Input() public containerHeight! : number  // total containerHeight including margins
-    @Input() public chartData! : Array<ScatterPlotChartDataInterface>   // required chartData to plot
+    @Input() public chartData! : Array<ScatterPlotChartDataInterface>   // required chartData 
 
     private svgInHtml! : d3.Selection<d3.BaseType, unknown, null, undefined>
     private chartGroup! : d3.Selection<SVGGElement, unknown, null, undefined>
@@ -25,13 +25,12 @@ export class ScatterPlotChartComponent {
                       }
     private chartWidth! : number
     private chartHeight! : number
-    private dataToPlot! : Array<DataToPlotInterface>
+    private dataToPlot! : Array<DataToPlotInterface>  // configure chartData according to chart plotting
     private xScale! : d3.ScaleLinear<number, number, never>
     private yScale! : d3.ScaleLinear<number, number, never>
-    private worldAverage! : number
+    private worldAverageValue! : number
     private continentList = ["Asia and Pacefic","Europe and Africa","America"]
  
-
 
     constructor(private viewContainerRef : ViewContainerRef) {}
 
@@ -49,7 +48,7 @@ export class ScatterPlotChartComponent {
        * @function createSvg
        */
       private createSvg() : void {
-      // set the dimensions and margins of the graph
+      // set the dimensions and margins of the chart
       // chart width after margin-left and margin-right
       this.chartWidth =  this.containerWidth - this.margin.left - this.margin.right;  
       // chart height after margin-top and margin-bottom 
@@ -91,7 +90,7 @@ export class ScatterPlotChartComponent {
     }
 
     /**
-     * @description configure chart data according to plot
+     * @description configure chart data according to graph plot
      * @function configureChartData
      */
     private configureChartData() : void {
@@ -103,18 +102,18 @@ export class ScatterPlotChartComponent {
             Population_Density:  d[" Population_Density "],
             Population_Growth_Rate: d[" Population_Growth_Rate "],
             Population_Bn:(d[" Population (000s) "]/1000000),
-            // implement color logic at random, this is not accurate mapping at all
+            // implement color logic at random, this is not accurate mapping of respective continent with country
             Continent: this.continentList[Math.floor(Math.random()*this.continentList.length)],
         };
       });
 
-      // world average density upto 800 
-      const Population_Density = 800
-      const worldAverageValue = this.dataToPlot.filter((el:DataToPlotInterface) => el["Population_Density"] < Population_Density)
+      // world average density upto 800 (given in case study)
+      const population_Density = 800
+      const worldAverageDensityList = this.dataToPlot.filter((el:DataToPlotInterface) => el["Population_Density"] < population_Density)
       // world average 
-      this.worldAverage = worldAverageValue.reduce((accumulator:number, currentObject:DataToPlotInterface) => {
+      this.worldAverageValue = worldAverageDensityList.reduce((accumulator:number, currentObject:DataToPlotInterface) => {
         return accumulator + currentObject["Population_Density"];
-      }, 0)/worldAverageValue.length;
+      }, 0)/worldAverageDensityList.length;
     }
 
     /**
@@ -127,6 +126,7 @@ export class ScatterPlotChartComponent {
 
       // data according to given chart
       const xDomain = [0,800]
+
       // find xRange [0, chartWidth]
       const xRange = [0, this.chartWidth];
 
@@ -150,8 +150,8 @@ export class ScatterPlotChartComponent {
       this.chartGroup.append("g")
                      .attr("class", "x-axis-crosshair")
                      .append("line")
-                     .attr("x1",this.xScale(this.worldAverage))
-                     .attr("x2", this.xScale(this.worldAverage))
+                     .attr("x1",this.xScale(this.worldAverageValue))
+                     .attr("x2", this.xScale(this.worldAverageValue))
                      .attr("y1", 0)
                      .attr("y2",this.chartHeight)
                       .attr("stroke", "grey")
@@ -162,13 +162,14 @@ export class ScatterPlotChartComponent {
       this.chartGroup.append("g")
                      .attr("class", "x-axis-crosshair-text")
                      .append("text")
-                     .attr("x",this.xScale(this.worldAverage))
+                     .attr("x",this.xScale(this.worldAverageValue))
                      .attr("y",this.chartHeight)
                      .attr("dy",20)
+                     .attr("font","sans-serif")
                      .attr('text-anchor','middle')
                      .attr("font-weight","bold")
                      .attr('font-size',12)
-                     .text(`world avg:${Math.trunc(this.worldAverage)}`)
+                     .text(`world avg:${Math.floor(this.worldAverageValue)}`)
 
      }
 
@@ -182,18 +183,20 @@ export class ScatterPlotChartComponent {
                              .attr('transform',`translate(${this.chartWidth/2},${this.chartHeight+this.margin.bottom/2})`)
                              .append('text')
                              .attr('text-anchor','middle')
+                             .attr("font","sans-serif")
                              .attr('font-size',13)
                              .attr('font-weight','bold')
                              .text('Population Density')
 
       const xAxisLegendLabel = this.chartGroup.append('g')
-                             .attr('transform',`translate(0,${this.chartHeight+this.margin.bottom})`)
-                             .append('text')
-                             .attr("dy",-2)
-                             .attr('text-anchor','start')
-                             .attr('font-size',10)
-                             .attr('font-weight','bold')
-                             .text(`*Bubble size indicates country's population`)
+                              .attr('transform',`translate(0,${this.chartHeight+this.margin.bottom})`)
+                              .append('text')
+                              .attr("dy",-2)
+                              .attr('text-anchor','start')
+                              .attr("font","sans-serif")
+                              .attr('font-size',10)
+                              .attr('font-weight','bold')
+                              .text(`*Bubble size indicates country's population`)
     }
 
 
@@ -207,7 +210,7 @@ export class ScatterPlotChartComponent {
       const yDomainMax = max(this.dataToPlot, (d: DataToPlotInterface) => d.Population_Growth_Rate) as number
 
       // yDomain , data according to given chart 
-      // chart is not visbile prperly so change to [yDomainMin,yDomainMax]
+      // chart is not visbile properly so change to [yDomainMin,yDomainMax]
       //const yDomain = [-100,100] 
       const yDomain = [-5,yDomainMax]
       
@@ -226,10 +229,10 @@ export class ScatterPlotChartComponent {
                    // .ticks(tickCountOnYAxis)
 
       this.chartGroup.append("g")
-                    .attr("class", "y-axis")
-                    .call(yAxis)
-                    // darw yAxis crosshair
-                    .call((g:any) => g
+                     .attr("class", "y-axis")
+                     .call(yAxis)
+                     // darw yAxis crosshair
+                     .call((g:any) => g
                       .selectAll(".tick line")
                       .clone()
                       .attr("x2", (d:number) => d === 0 ? this.chartWidth : 0)
@@ -249,6 +252,7 @@ export class ScatterPlotChartComponent {
                              .attr('transform',`translate(${(-this.margin.left/2)},${this.chartHeight/2})`)
                              .append('text')
                              .attr("dy",20)
+                             .attr("font","sans-serif")
                              .attr('text-anchor','middle')
                              .attr('font-size',13)
                              .attr('font-weight','bold')
@@ -261,12 +265,21 @@ export class ScatterPlotChartComponent {
      * @function drawCircle
      */
     private drawCircle() : void {
-    // create circle domain
+    // circle domain
     const circleDomain = extent(this.dataToPlot,(d:DataToPlotInterface) => d["Population"]) as [number,number]
+    // circle radius range
     const circleRadiusRange = [3,10]
-    const circleRadiusScale =  scaleLinear().domain(circleDomain).range(circleRadiusRange)
+
+    // add circle radius scale
+    const circleRadiusScale =  scaleLinear()
+                               .domain(circleDomain)
+                               .range(circleRadiusRange)
+
+    // circle color range
     const circleColorRange = ["red","blue","green"]
-    const colorScale =   scaleOrdinal()
+
+    // add circle color scale
+    const circleColorScale =   scaleOrdinal()
                         .domain(this.continentList)
                         .range(circleColorRange)
     // add circle
@@ -277,7 +290,7 @@ export class ScatterPlotChartComponent {
                   .attr("cx",  (d:DataToPlotInterface) => this.xScale(d["Population_Density"]))
                   .attr("cy",  (d:DataToPlotInterface) => this.yScale(d["Population_Growth_Rate"]))
                   .attr("r",   (d:DataToPlotInterface) =>  circleRadiusScale(d["Population"]))
-                  .attr("fill", (d:DataToPlotInterface) => colorScale(d["Continent"]) as any)
+                  .attr("fill", (d:DataToPlotInterface) => circleColorScale(d["Continent"]) as any)
                   .attr("stroke", "black")
                   .attr("opacity","0.5")
                   .attr("stroke-width", "1px")
@@ -287,43 +300,46 @@ export class ScatterPlotChartComponent {
                   .attr("population-density", (d:DataToPlotInterface) => d["Population_Density"])
                   .attr("population-growth-rate", (d:DataToPlotInterface) => d["Population_Growth_Rate"])
 
-      // add mousemove for tooltip
-     .on('mousemove', function(event) {
-      const dataCountry = select(this).attr("country");
-      const dataYear = select(this).attr("year");
-      const dataPopulation = select(this).attr("population");
-      const dataPopulationDensity = select(this).attr("population-density");
-      const dataPopulationGrowth = select(this).attr("population-growth-rate");
+                 // add mousemove for tooltip
+                .on('mousemove', function(event) {
+                  const dataCountry = select(this).attr("country");
+                  const dataYear = select(this).attr("year");
+                  const dataPopulation = select(this).attr("population");
+                  const dataPopulationDensity = select(this).attr("population-density");
+                  const dataPopulationGrowth = select(this).attr("population-growth-rate");
 
-      const [posX,posY] = [event.pageX,event.pageY];
-      select("#tooltip")
-      .attr('style',`left:${posX-30}px; top:${posY-30}px; visibility: visible;`)
-      .html(`<strong>${dataCountry}-${dataYear}</strong><br>
-      Population:${dataPopulation} Bn<br>
-      Population Density:${dataPopulationDensity}<br>
-      Population Growth Rate:${dataPopulationGrowth}%`)
-      select(this).style('stroke', 'blue');
-    })
-  
-    // hide tooltip in mouseout
-   .on('mouseout', (d) => {
-     selectAll('.circle').style('stroke', '');
-     select("#tooltip").attr('style', 'visibility: hidden;');
-    })
-
+                  const [posX,posY] = [event.pageX,event.pageY];
+                  select("#tooltip").attr('style',`left:${posX-30}px; top:${posY-30}px; visibility: visible;`)
+                  .html(`<strong>${dataCountry}-${dataYear}</strong><br>
+                  Population:${dataPopulation} Bn<br>
+                  Population Density:${dataPopulationDensity}<br>
+                  Population Growth Rate:${dataPopulationGrowth}%`)
+                  select(this).style('stroke', 'blue');
+                })
+              
+                // hide tooltip in mouseout
+                .on('mouseout', () => {
+                  selectAll('.circle').style('stroke', '');
+                  select("#tooltip").attr('style', 'visibility: hidden;');
+                })
     }
 
-    
+    /**
+     * @description create legend
+     * @function createLegend
+     */
     private createLegend(): void {
-
+      // circle color range
       const circleColorRange = ["red","blue","green"]
-      const colorScale =   scaleOrdinal()
-                        .domain(this.continentList)
-                        .range(circleColorRange)
+
+      // circle color scale
+      const circleColorScale =   scaleOrdinal()
+                                  .domain(this.continentList)
+                                  .range(circleColorRange)
     
-      // define the width and height of each legend item
-      const itemWidth = 75;
-      const itemHeight = 20;
+      // define the cx and cy of each legend item
+      const circleCX = 75;
+      const circleCY = 20;
       const itemSpacing = 30; 
 
       // create a group element for the legend
@@ -334,28 +350,29 @@ export class ScatterPlotChartComponent {
 
       // create a circle and text for each item in the legend
       const legendItems = legendGroup
-        .selectAll("g")
-        .data(this.continentList)
-        .join("g")
-        .append("g")
-        .attr("class", "legend-item")
-        .attr("transform", (d, i) => `translate(${i * (itemWidth + itemSpacing)-this.margin.left*1.8}, ${this.chartHeight+this.margin.bottom/2-20})`);
+                            .selectAll("g")
+                            .data(this.continentList)
+                            .join("g")
+                            .append("g")
+                            .attr("class", "legend-item")
+                            .attr("transform", (d, i) => `translate(${i * (circleCX + itemSpacing)-this.margin.left*1.8}, ${this.chartHeight+this.margin.bottom/2-20})`);
 
-      legendItems
-        .append("circle")
-        .attr("cx", itemWidth)
-        .attr("cy", itemHeight)
-        .attr("r",5)
-        .attr("fill", (d:string) => colorScale(d) as any)
-        .attr("opacity","0.5")
+      legendItems.append("circle")
+                 .attr("cx", circleCX)
+                 .attr("cy", circleCY)
+                 .attr("r",5)
+                 .attr("fill", (d:string) => circleColorScale(d) as any)
+                 .attr("opacity","0.5")
 
-      legendItems
-        .append("text")
-        .attr("x", itemWidth)
-        .attr("y", itemHeight / 2)
+      legendItems.append("text")
+        .attr("x", circleCX)
+        .attr("y", circleCY / 2)
         .attr("dx",10)
         .attr("dy",13)
         .attr("font-size",10)
+        .attr("text-anchor","start")
+        .attr("fill", "black")
+        .attr("font-weight","bold")
         .text((d:string) => d);
     }
 

@@ -1,6 +1,6 @@
 
 /**
- * @description convert any data to number
+ * @description convert to number format
  * @param data
  * @returns result in number
  */

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "course-assignments": {
+    "world-population-data-viz": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/course-assignments",
+            "outputPath": "dist/world-population-data-viz",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "course-assignments:build:production"
+              "browserTarget": "world-population-data-viz:build:production"
             },
             "development": {
-              "browserTarget": "course-assignments:build:development"
+              "browserTarget": "world-population-data-viz:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "course-assignments:build"
+            "browserTarget": "world-population-data-viz:build"
           }
         },
         "test": {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-// Import D3.js Module
+// import d3.js module 
 import * as d3 from 'd3'
 import { convertToNumber } from 'src/app/services/utils';
 

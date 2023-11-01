@@ -14,16 +14,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'course-assignments'`, () => {
+  it(`should have as title 'world-population-data-viz'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('course-assignments');
+    expect(app.title).toEqual('world-population-data-viz');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('course-assignments app is running!');
+    expect(compiled.querySelector('.content span')?.textContent).toContain('world-population-data-viz app is running!');
   });
 });

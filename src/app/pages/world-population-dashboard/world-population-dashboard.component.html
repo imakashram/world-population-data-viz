@@ -1,23 +1,30 @@
 
+<!-- Year Dropdown -->
 <div class="year-dropdown">
     <select id="year"  [(ngModel)]="selectedYear" (change)="onYearChanged()">
       <option *ngFor="let year of uniqueYear" value="{{year}}">Year:{{year}}</option>
     </select>
 </div>
 
+<!-- Population Card Conatiner -->
 <div class="population-card-container m-t card-shadow">
+
+   <!-- Polulation Summary -->
    <div class="population-summary m-l">
      <div class="world-population-label">World Population</div>
      <div>({{selectedYear}})</div>
      <div class="world-population-value-label">{{worldPopulation}}<span class="world-population-label"> Bn</span></div>
    </div>
 
+   <!-- Polulation Area Chart -->
    <div class="population-area-chart">
-    <div class="population-growth-label m-l">Population Growth</div>
-    <app-area-chart [containerWidth]="350" [containerHeight]="200" [chartData]="areaChartData"></app-area-chart>
+     <div class="population-growth-label m-l">Population Growth</div>
+     <app-area-chart [containerWidth]="350" [containerHeight]="200" [chartData]="areaChartData"></app-area-chart>
    </div>
+
 </div>
 
+<!-- Polulation Scatter Plot Chart -->
 <div class="population-scatter-plot-chart m-t card-shadow">
     <div class="m-l">
     <div class="population-growth-label">Population Growth vs Density Correlation</div>

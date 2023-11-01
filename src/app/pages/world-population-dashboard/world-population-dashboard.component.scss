@@ -1,9 +1,11 @@
+// components css
 :host {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
 }
+
 
 .m-t {
     margin-top: 30px;
@@ -56,10 +58,6 @@
     font-weight: bold;
 }
 
-
-
-
-
   /* Responsive Styles for Mobile View */
   @media screen and (max-width: 700px) {
     :host {
@@ -76,7 +74,7 @@
         justify-content: center;
     }
 
-    .population-card-container{
+    .population-card-container {
         width: 200px;
         min-height: 10px;
         border:  0.5px solid grey;
