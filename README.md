@@ -2,7 +2,7 @@
 Explore world population trends with our Angular 16 project, utilizing D3.js for data visualization. This repository offers tools and resources for creating interactive and insightful visualizations of world population data, simplifying the analysis and understanding of demographic changes over time.
 
 ## Demo
-Click [world-population-data-viz]() to view the demo.
+Click [world-population-data-viz](https://imakashram.github.io/world-population-data-viz/) to view the demo.
 
 ## Prerequisites
 To follow these examples you need to install [Node.js and npm](https://nodejs.org/en/) if they are not already installed on your computer.
