@@ -91,7 +91,8 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "404.html"
             ],
             "styles": [
               "src/styles.scss"
