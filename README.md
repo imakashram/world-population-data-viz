@@ -19,6 +19,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
  ```bash
  $ git clone https://github.com/imakashram/world-population-data-viz.git
  $ cd world-population-data-viz
+ $ git checkout development
+ $ git pull origin development
  ```
 - Install the npm packages described in the `package.json`:
  ```bash
